@@ -19,11 +19,14 @@ contract sample {
         _;
     }
 
+    event created(bytes32 id);
+    
     // creates new product, returns it's hashed value.
     function create(string memory _name, address _addr, uint _expiry, uint _mrp, uint _packof) public returns(bytes32){
         Product memory P1 = Product(_name, _addr, block.timestamp, _expiry, _mrp, _packof);
         bytes32 id = keccak256(abi.encodePacked(block.timestamp, _name));
         Products[id] = P1;
+        emit created(id);
         return id;
     }
 
