@@ -29,11 +29,10 @@ const Dashboard = () => {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       window.web3 = new Web3(window.ethereum);
       web3 = new Web3(Web3.givenProvider);
-      con_addr = "0x84c476Fc3ddf551c59Da6364C54477c6406384b1";
+      con_addr = "0x282441e3286B1037b0F8B2a37fC6172aB17432a8";
       sampleContract = new web3.eth.Contract(sample_abi, con_addr);
       return true;
     }
-    alert("Wallet doesn't Exist! Install it");
     return false;
   };
 
@@ -43,7 +42,7 @@ const Dashboard = () => {
       const accs = await window.ethereum.enable();
       const acc = accs[0];
       setAccountAddress(acc);
-
+      const gas = 222;
       sampleContract.methods
         .create("Dolo500", acc, 25, 5, 1)
         .estimateGas()
@@ -111,6 +110,8 @@ const Dashboard = () => {
         });
     }
   };
+
+  
 
   
   return (
