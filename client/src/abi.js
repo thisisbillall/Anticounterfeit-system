@@ -1,11 +1,24 @@
-export const sample_abi = [
+export const sample_abi =[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "ret_value",
+        "type": "bool"
+      }
+    ],
+    "name": "added_next",
+    "type": "event"
+  },
   {
     "anonymous": false,
     "inputs": [
       {
         "indexed": false,
         "internalType": "bytes32",
-        "name": "id",
+        "name": "ret_id",
         "type": "bytes32"
       }
     ],
@@ -13,18 +26,75 @@ export const sample_abi = [
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "ID",
-    "outputs": [
+    "anonymous": false,
+    "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "next_addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "date",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "expiry",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "mrp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "packof",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct conV1.Product",
+        "name": "ret_data",
+        "type": "tuple"
       }
     ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "name": "details",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "ret_value",
+        "type": "bool"
+      }
+    ],
+    "name": "removed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "ret_value",
+        "type": "bool"
+      }
+    ],
+    "name": "verify",
+    "type": "event"
   },
   {
     "inputs": [
@@ -68,8 +138,7 @@ export const sample_abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -100,13 +169,7 @@ export const sample_abi = [
       }
     ],
     "name": "create",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -119,13 +182,7 @@ export const sample_abi = [
       }
     ],
     "name": "remove",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -143,13 +200,7 @@ export const sample_abi = [
       }
     ],
     "name": "add_next",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -167,13 +218,7 @@ export const sample_abi = [
       }
     ],
     "name": "verify_user",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -186,45 +231,7 @@ export const sample_abi = [
       }
     ],
     "name": "get_details",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "next_addr",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "date",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "expiry",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "mrp",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "packof",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct sample.Product",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   }
