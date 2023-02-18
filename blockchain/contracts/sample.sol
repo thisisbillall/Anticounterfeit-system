@@ -1,41 +1,48 @@
-// SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity >=0.7.0 <0.9.0;
 
 contract sample {
-  constructor() public {
-  }
-  string temp;
-  function get() public view returns (string memory) {
-    return temp;
-  }
 
-    function set(string memory _x) public {
-    temp = _x;
-  }
-
-      uint256 number;
-    struct product{
+    struct Product{
         string name;
-        // uint price;
-        uint id;
-        address manufacturer;
+        address next_addr;
+        uint date;
+        uint expiry;
+        uint mrp;
+        uint packof;
     }
 
-    product[] public products;
-    mapping(address => uint) public manu_to_ind;
+    bytes32 public ID;
+    mapping(bytes32 => Product) public Products;
 
-    function additem(string memory _name) public{
-        product memory P;
-        P.name = _name;
-        P.id = 600;
-        P.manufacturer = msg.sender;
-        products.push(P);
+    modifier exists(bytes32 _id) {
+        require ((Products[_id].date) != 0, "Invalid Id"); 
+        _;
     }
 
-   function getproduct(uint ind) public view returns(string memory n, uint i, address a){
-        string memory n = products[ind].name;
-        uint i = products[ind].id;
-        address a = products[ind].manufacturer;
-        return (n, i, a);
+    // creates new product, returns it's hashed value.
+    function create(string memory _name, address _addr, uint _expiry, uint _mrp, uint _packof) public returns(bytes32){
+        Product memory P1 = Product(_name, _addr, block.timestamp, _expiry, _mrp, _packof);
+        bytes32 id = keccak256(abi.encodePacked(block.timestamp, _name));
+        Products[id] = P1;
+        return id;
+    }
+
+    function remove(bytes32 _id) public exists(_id) returns(bool){
+        delete Products[_id];
+        return true;
+    }
+
+    // intermediate user
+    function add_next(bytes32 _id, address _addr) public exists(_id) returns (bool){
+        Products[_id].next_addr = _addr;
+    }
+
+    function verify_user(bytes32 _id, address _addr) public exists(_id) returns(bool){
+        return Products[_id].next_addr == _addr;
+    }
+
+    // view details
+    function get_details(bytes32 _id) public exists(_id) returns(Product memory){
+        return Products[_id];
     }
 }
