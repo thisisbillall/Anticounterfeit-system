@@ -1,6 +1,6 @@
-var SampleContract = artifacts.require("sample");
+var MyContract = artifacts.require("conV1");
 
 module.exports = function(deployer) {
   // deployment steps
-  deployer.deploy(SampleContract);
+  deployer.deploy(MyContract);
 };
