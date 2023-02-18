@@ -27,7 +27,7 @@ const Dashboard = () => {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       window.web3 = new Web3(window.ethereum);
       web3 = new Web3(Web3.givenProvider);
-      con_addr = "0x28f9540DaB3E9FFF4F64e62f51d0D1F00B376a14";
+      con_addr = "0x282441e3286B1037b0F8B2a37fC6172aB17432a8";
       sampleContract = new web3.eth.Contract(sample_abi, con_addr);
       return true;
     }
@@ -41,19 +41,29 @@ const Dashboard = () => {
       const accs = await window.ethereum.enable();
       const acc = accs[0];
       setAccountAddress(acc);
-      const gas = await sampleContract.methods
-        .create("Dolo500", acc, 25, 5, 1)
-        .estimateGas();
+      const gas = 222;
+      sampleContract.methods
+      .get_details("0xa67e9ae517c2ad8039a1c7b814d4b399b92e4ffebefbfa4a1d316ffe79dd1b8c")
+      .estimateGas()
+      .then(res=>console.log("abc"))
+      .catch(err => 
+        {
+          let obj = JSON.parse(err.message.substring(err.message.indexOf("{")));
+          console.log(obj.data.reason)
+        }
+         
+        );
       console.log(gas);
-      const resp = await sampleContract.methods
-        .create("Dolo500", acc, 25, 5, 1)
-        .send({
-          from: acc,
-          gas,
-        });
-      setFetchedId(resp.events.created.returnValues.id);
-      console.log("after search", resp.events.created.returnValues);
-      console.log(fetchId);
+
+
+      // const resp = await sampleContract.methods
+      //   .get_details("0xa67e9ae517c2ad8039a1c7b814d4b399b92e4ffebefbfa4a1d316ffe79dd1b8c")
+      //   .send({
+      //     from: acc,
+      //     gas,
+      //   });
+
+        // console.log(resp);
     } else {
       alert("Wallet doesn't Exist! Install it");
     }
