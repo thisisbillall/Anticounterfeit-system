@@ -21,7 +21,7 @@ const Chain =()=>{
     return(
 
         <div>
-            <h1>Tracking Product - {"prodId"}</h1>
+            <h1>Tracking Product - {prodID}</h1>
             <input className="man_inp" type={"text"} placeholder={"ID"} onChange={(e)=>setProdID(e.target.value)}/>
             <button onClick={onTrack}>Track</button>
             <div className="container">
