@@ -1,17 +1,4 @@
-export const sample_abi =[
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "ret_value",
-        "type": "bool"
-      }
-    ],
-    "name": "added_next",
-    "type": "event"
-  },
+export const sample_abi = [
   {
     "anonymous": false,
     "inputs": [
@@ -151,7 +138,8 @@ export const sample_abi =[
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
