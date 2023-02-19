@@ -1,4 +1,4 @@
-export const sample_abi = [
+export const sample_abi =  [
   {
     "anonymous": false,
     "inputs": [
@@ -59,6 +59,11 @@ export const sample_abi = [
             "internalType": "uint256",
             "name": "packof",
             "type": "uint256"
+          },
+          {
+            "internalType": "string[]",
+            "name": "locations",
+            "type": "string[]"
           }
         ],
         "indexed": false,
@@ -138,8 +143,7 @@ export const sample_abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -167,6 +171,11 @@ export const sample_abi = [
         "internalType": "uint256",
         "name": "_packof",
         "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_loc",
+        "type": "string"
       }
     ],
     "name": "create",
@@ -193,15 +202,16 @@ export const sample_abi = [
         "internalType": "bytes32",
         "name": "_id",
         "type": "bytes32"
-      },
-      {
-        "internalType": "address",
-        "name": "_addr",
-        "type": "address"
       }
     ],
-    "name": "add_next",
-    "outputs": [],
+    "name": "verify_user",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -216,9 +226,14 @@ export const sample_abi = [
         "internalType": "address",
         "name": "_addr",
         "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "_loc",
+        "type": "string"
       }
     ],
-    "name": "verify_user",
+    "name": "next_location",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

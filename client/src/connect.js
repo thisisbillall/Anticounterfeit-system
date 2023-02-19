@@ -11,7 +11,7 @@ export const isWalletExist = async () => {
     await window.ethereum.request({ method: "eth_requestAccounts" });
     window.web3 = new Web3(window.ethereum);
     let web3 = new Web3(Web3.givenProvider);
-    let con_addr = "0xe0574Fc16153214C7479d2cD7F44cD77B206CA79";
+    let con_addr = "0x28f9540DaB3E9FFF4F64e62f51d0D1F00B376a14";
     sampleContract = new web3.eth.Contract(sample_abi, con_addr);
     return true;
   }
@@ -49,8 +49,8 @@ export const isWalletExist = async () => {
         });
     }
   };
-export const create = async (name, accAddress, exp_date, mrp, packOf) => {
-  console.log(name, accAddress, exp_date, mrp, packOf);
+export const create = async (name, accAddress, exp_date, mrp, packOf, location) => {
+  console.log(name, accAddress, exp_date, mrp, packOf, location);
   const wallet = await isWalletExist();
   if (wallet) {
     const accs = await window.ethereum.enable();
@@ -58,12 +58,12 @@ export const create = async (name, accAddress, exp_date, mrp, packOf) => {
     console.log(typeof accAddress, accAddress);
 
     let gas = await sampleContract.methods
-      .create(name, accAddress, exp_date, mrp, packOf)
+      .create(name, accAddress, exp_date, mrp, packOf,location)
       .estimateGas();
     console.log("gas", gas);
 
     return sampleContract.methods
-      .create(name, accAddress, exp_date, mrp, packOf)
+      .create(name, accAddress, exp_date, mrp, packOf, location)
       .send({
         from: acc,
         gas,

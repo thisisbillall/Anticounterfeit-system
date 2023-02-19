@@ -9,6 +9,8 @@ const Manufacturer = () => {
   const [exp_date, setExp_date] = useState(null);
   const [mrp, setMrp] = useState(null);
   const [packOf, setPackOf] = useState(0);
+  const [location, setLocation] = useState(null);
+  
 
   const [btn, setBtn] = useState(false);
 
@@ -25,8 +27,9 @@ const Manufacturer = () => {
       alert("Please Enter Name, Next Address and Manufacture Date!!");
       return;
     } else {
-      create(name, address, exp_date, mrp, packOf)
+      create(name, address, exp_date, mrp, packOf, location)
       .then(res=>{
+        console.log(res)
         console.log("res", res.events?.created?.returnValues?.ret_id)
         setFetchedId(res.events?.created?.returnValues?.ret_id)
         setBtn(true)
@@ -93,6 +96,12 @@ const Manufacturer = () => {
           type="number"
           placeholder={"Pack of"}
           onChange={(e) => setPackOf(e.target.value)}
+        />
+         <input
+          className="man_inp"
+          type="text"
+          placeholder={"Locaton"}
+          onChange={(e) => setLocation(e.target.value)}
         />
         <button className="man_btn" onClick={onAddProduct}>
           Add Product
