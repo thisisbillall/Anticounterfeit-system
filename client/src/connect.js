@@ -8,7 +8,7 @@ let sampleContract;
       await window.ethereum.request({ method: "eth_requestAccounts" });
       window.web3 = new Web3(window.ethereum);
       let web3 = new Web3(Web3.givenProvider);
-      let con_addr = "0x282441e3286B1037b0F8B2a37fC6172aB17432a8";
+      let con_addr = "0x84c476Fc3ddf551c59Da6364C54477c6406384b1";
       sampleContract = new web3.eth.Contract(sample_abi, con_addr);
       return true;
     }
@@ -16,7 +16,8 @@ let sampleContract;
   };
 
 
-  export const create = async (_id) => {
+  export const fetchDetails = async (_id, _callback) => {
+    console.log(_id);
     const wallet = await isWalletExist();
     if (wallet) {
       const accs = await window.ethereum.enable();
@@ -25,16 +26,15 @@ let sampleContract;
         .get_details(_id)
         .estimateGas()
         .then(gas => {
-          sampleContract.methods
+          return sampleContract.methods
           .get_details(_id)
           .send({
               from: acc,
               gas,
             })
             .then(res => {
-              console.log(res.events);
-              alert("Product fetched successfully!");
-              return res.events;
+              console.log(res.events.details.returnValues.ret_data);
+              _callback(res.events.details.returnValues.ret_data);
             })
             .catch((err) => {
               console.log(err);
