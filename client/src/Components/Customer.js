@@ -16,7 +16,7 @@ const Customer = (props) => {
     fetchDetails(id, res =>{
         let obj = {
             name : res.name,
-            man_date : res.data,
+            man_date : res.date,
             expiry : res.expiry,
             mrp : res.mrp,
             packof : res.packof

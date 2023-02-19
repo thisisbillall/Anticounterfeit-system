@@ -18,11 +18,11 @@ const Intermediate = () => {
     const [isBtn, setIsBtn] = useState(false);
     
     const upDateLocation =()=>{
-        if(!prodId || !nextAddr){
+        if(!prodID || !nextAddr){
           alert("Please Enter All the Fields!")
           return;
         }
-        
+
 
     }
 
@@ -41,7 +41,7 @@ const Intermediate = () => {
 
       {isBtn &&(
         <>
-            <QR id={prodId} name={propName}/>
+            <QR id={prodID} name={propName}/>
         </>
     )}
 
