@@ -1,4 +1,17 @@
-export const sample_abi = [
+export const sample_abi =[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "ret_value",
+        "type": "bool"
+      }
+    ],
+    "name": "added_next",
+    "type": "event"
+  },
   {
     "anonymous": false,
     "inputs": [
