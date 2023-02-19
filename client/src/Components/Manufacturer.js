@@ -1,22 +1,9 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import QR from "./QR";
-import Web3 from "web3";
-import { sample_abi } from "../abi.js";
-import { AnimatePresence } from "framer-motion";
+import {  create, remove } from "../connect";
 
-let web3;
-let con_addr;
-let sampleContract;
 
 const Manufacturer = () => {
-  // string name;
-  // address next_addr;
-  // uint date;
-  // uint expiry;
-  // uint mrp;
-  // uint packof;
-
   const [name, setName] = useState(null);
   const [address, setAddress] = useState(null);
   const [exp_date, setExp_date] = useState(null);
@@ -25,122 +12,48 @@ const Manufacturer = () => {
 
   const [btn, setBtn] = useState(false);
 
-  const [accAddress, setAccountAddress] = useState(null);
+  // const [owner, setOwner] = useState(accAddress);
   const [fetchId, setFetchedId] = useState(null);
 
   const [toRemove, setToRemove] = useState(null);
   let isRemoved = false;
 
-  const location = useLocation();
+  // const location = useLocation();
 
-  const onAddProduct = () => {
+  const onAddProduct = async () => {
     if (!name || !address) {
       alert("Please Enter Name, Next Address and Manufacture Date!!");
       return;
     } else {
-      create();
+      create(name, address, exp_date, mrp, packOf)
+      .then(res=>{
+        console.log("res", res.events?.created?.returnValues?.ret_id)
+        setFetchedId(res.events?.created?.returnValues?.ret_id)
+        setBtn(true)
+        alert("Added Successfully!")
+      }).catch(err=>{
+        alert("Something went Wrong!")
+        console.log(err)
+      })
     }
   };
 
-  const onRemoveProduct = () => {
+  const onRemoveProduct = async () => {
     if (!toRemove) {
-      alert("Please Enter Product ID!!");
+      alert("Please Enter Product Id!!");
       return;
     } else {
-      remove();
+      remove(toRemove)
+      .then(res=>{
+        console.log("res", res.events?.removed?.returnValues?.ret_value)
+        alert("Removed Successfully!")
+      }).catch(err=>{
+        alert("This Product doesn't exist on Blockchain!")
+        console.log(err)
+      })
     }
   };
 
-  // to validate if metamask exist
-  const isWalletExist = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      window.web3 = new Web3(window.ethereum);
-      web3 = new Web3(Web3.givenProvider);
-      con_addr = "0x84c476Fc3ddf551c59Da6364C54477c6406384b1";
-      sampleContract = new web3.eth.Contract(sample_abi, con_addr);
-      return true;
-    }
-    alert("Wallet doesn't Exist! Install it");
-    return false;
-  };
-
-  const create = async () => {
-    const wallet = await isWalletExist();
-    if (wallet) {
-      const accs = await window.ethereum.enable();
-      const acc = accs[0];
-      setAccountAddress(acc);
-      console.log(typeof accAddress, accAddress);
-
-      sampleContract.methods
-        .create(name, accAddress, exp_date, mrp, packOf)
-        .estimateGas()
-        .then((gas) => {
-          console.log(gas);
-          sampleContract.methods
-            .create(name, accAddress, exp_date, mrp, packOf)
-            .send({
-              from: acc,
-              gas,
-            })
-            .then((resp) => {
-              setFetchedId(resp.events.created.returnValues.ret_id);
-              setBtn(true);
-              console.log("after search", resp.events.created.returnValues);
-              alert("Product added Successfully!");
-              console.log(fetchId);
-            })
-            .catch((err) => {
-              console.log(err);
-              alert("Something went wrong", err);
-            });
-        })
-        .catch((err) => {
-          let obj = JSON.parse(err.message.substring(err.message.indexOf("{")));
-          console.log(err);
-          alert(obj.data.reason);
-        });
-    }
-  };
-
-  const remove = async () => {
-    const wallet = await isWalletExist();
-    if (wallet) {
-      const accs = await window.ethereum.enable();
-      const acc = accs[0];
-      setAccountAddress(acc);
-
-      sampleContract.methods
-        .remove(toRemove)
-        .estimateGas()
-        .then((gas) => {
-          console.log(gas);
-          sampleContract.methods
-            .remove(toRemove)
-            .send({
-              from: acc,
-              gas,
-            })
-            .then((resp) => {
-              console.log(resp);
-              console.log(resp.events.removed.returnValues.ret_value);
-              isRemoved = resp.events.removed.returnValues.ret_value;
-              if (isRemoved) alert(fetchId, " Removed Successfully!");
-              else alert(fetchId, " Not Removed :(");
-            })
-            .catch((err) => {
-              console.log(err);
-              alert("Something went wrong", err);
-            });
-        })
-        .catch((err) => {
-          let obj = JSON.parse(err.message.substring(err.message.indexOf("{")));
-          console.log(err);
-          alert(obj.data.reason);
-        });
-    }
-  };
 
   return (
     <div className="mfg_wrapper">
@@ -149,7 +62,7 @@ const Manufacturer = () => {
       {/* Add product section */}
       <div>
         <h2>Add Product</h2>
-        <h5>Acc Owner: {accAddress}</h5>
+        {/* <h5>Acc Owner: {owner}</h5> */}
         <h6>Prod Id: {fetchId}</h6>
         <input
           className="man_inp"
