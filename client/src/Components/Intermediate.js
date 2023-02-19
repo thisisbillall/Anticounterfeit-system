@@ -1,23 +1,28 @@
 import { render } from "@testing-library/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 // import Button from "./Button";
 // import Input from "./Input";
 import QR from "./QR";
 // import Web3Modal from 
+
 const Intermediate = () => {
-    const location = useLocation()
-    const [prodId, setProdId] = useState('');
+
+    const [currUser, setCurrUser] = useState ("0xdF54333bcb3C6F82594c583e6F222dBFdF63680a");
+    const[prodID, setProdID] = useState(null);
+    const[nextAddr, setNextAddr] = useState(null);
+    
+    const [isValidID, setValidID ] = useState(false);
+    
     const [propName, setProdName] = useState('');
     const [isBtn, setIsBtn] = useState(false);
     
-    const onAddProduct =()=>{
-        if(prodId && propName){
-            setIsBtn(true);
+    const upDateLocation =()=>{
+        if(!prodId || !nextAddr){
+          alert("Please Enter All the Fields!")
+          return;
         }
-        else{
-            alert("Enter both fields!!")
-        }
+        
 
     }
 
@@ -28,15 +33,11 @@ const Intermediate = () => {
   return (
     <>
       <h1>Intermediate Dashboard</h1>
-      {console.log("vfsv", location.state)}
-      <h3>{location.state.address}</h3>
-      {/* <button>Logout
-
-      </button> */}
-      <input className="man_inp" type={"text"} placeholder={"ID"} onChange={(e)=>setProdId(e.target.value)}/>
+      
+      <input className="man_inp" type={"text"} placeholder={"ID"} onChange={(e)=>setProdID(e.target.value)}/>
       <input  className="man_inp" type={"text"} placeholder={"Location"} onChange={(e)=>setProdName(e.target.value)}/>
       
-      <button className="man_btn" onClick={onAddProduct}>Update Location</button>
+      <button className="man_btn" onClick={upDateLocation}>Update Location</button>
 
       {isBtn &&(
         <>

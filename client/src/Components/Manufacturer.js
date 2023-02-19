@@ -4,6 +4,7 @@ import QR from "./QR";
 import Web3 from "web3";
 import { sample_abi } from "../abi.js";
 import { AnimatePresence } from "framer-motion";
+import { isWalletExist } from "../Routes/Helper";
 
 let web3;
 let con_addr;
@@ -51,19 +52,19 @@ const Manufacturer = () => {
     }
   };
 
-  // to validate if metamask exist
-  const isWalletExist = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-      window.web3 = new Web3(window.ethereum);
-      web3 = new Web3(Web3.givenProvider);
-      con_addr = "0x28f9540DaB3E9FFF4F64e62f51d0D1F00B376a14";
-      sampleContract = new web3.eth.Contract(sample_abi, con_addr);
-      return true;
-    }
-    alert("Wallet doesn't Exist! Install it");
-    return false;
-  };
+  // // to validate if metamask exist
+  // const isWalletExist = async () => {
+  //   if (typeof window.ethereum !== "undefined") {
+  //     await window.ethereum.request({ method: "eth_requestAccounts" });
+  //     window.web3 = new Web3(window.ethereum);
+  //     web3 = new Web3(Web3.givenProvider);
+  //     con_addr = "0x28f9540DaB3E9FFF4F64e62f51d0D1F00B376a14";
+  //     sampleContract = new web3.eth.Contract(sample_abi, con_addr);
+  //     return true;
+  //   }
+  //   alert("Wallet doesn't Exist! Install it");
+  //   return false;
+  // };
 
   const create = async () => {
     const wallet = await isWalletExist();
