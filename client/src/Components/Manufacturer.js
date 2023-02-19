@@ -57,7 +57,7 @@ const Manufacturer = () => {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       window.web3 = new Web3(window.ethereum);
       web3 = new Web3(Web3.givenProvider);
-      con_addr = "0x28f9540DaB3E9FFF4F64e62f51d0D1F00B376a14";
+      con_addr = "0x84c476Fc3ddf551c59Da6364C54477c6406384b1";
       sampleContract = new web3.eth.Contract(sample_abi, con_addr);
       return true;
     }
@@ -98,7 +98,7 @@ const Manufacturer = () => {
         })
         .catch((err) => {
           let obj = JSON.parse(err.message.substring(err.message.indexOf("{")));
-          console.log(obj.data.reason);
+          console.log(err);
           alert(obj.data.reason);
         });
     }
@@ -136,7 +136,7 @@ const Manufacturer = () => {
         })
         .catch((err) => {
           let obj = JSON.parse(err.message.substring(err.message.indexOf("{")));
-          console.log(obj.data.reason);
+          console.log(err);
           alert(obj.data.reason);
         });
     }
