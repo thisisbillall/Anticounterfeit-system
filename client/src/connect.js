@@ -76,7 +76,6 @@ export const remove = async (id) => {
   if (wallet) {
     const accs = await window.ethereum.enable();
     const acc = accs[0];
-
     let gas = await sampleContract.methods.remove(id).estimateGas();
     console.log("gas", gas);
 
@@ -87,18 +86,43 @@ export const remove = async (id) => {
   }
 };
 
-const verify = async(prodID, middleMenAddress)=>{
+export const verify = async(prodID)=>{
+
   const wallet = await isWalletExist();
   if (wallet) {
     const accs = await window.ethereum.enable();
     const acc = accs[0];
-
-    let gas = await sampleContract.methods.verify_user(prodID, middleMenAddress).estimateGas();
+    owner = acc;
+    let gas = await sampleContract.methods.verify_user(prodID, owner).estimateGas();
     console.log("gas", gas);
-
-    return sampleContract.methods.verify_user(prodID, middleMenAddress).send({
+    console.log("ow", owner)
+    return sampleContract.methods.verify_user(prodID, owner).send({
       from: acc,
       gas,
     });
   }
 };
+
+
+export const addNext = async(prodID, next_addr)=>{
+
+  const wallet = await isWalletExist();
+  if (wallet) {
+    const accs = await window.ethereum.enable();
+    const acc = accs[0];
+    owner = acc;
+    let gas = await sampleContract.methods.add_next(prodID, next_addr).estimateGas();
+    console.log("gas", gas);
+    console.log("ow", owner)
+    return sampleContract.methods.add_next(prodID, next_addr).send({
+      from: acc,
+      gas,
+    });
+  }
+};
+
+
+
+// export const ownerAddress = ()=>{
+//   return owner;
+// }
