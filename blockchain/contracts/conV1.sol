@@ -29,10 +29,8 @@ contract conV1 {
     event details(Product ret_data);
 
     function create(string memory _name, address _addr, uint _expiry, uint _mrp, uint _packof, string memory _loc) public{
-        // string[] memory temp;
-        temp.push(_loc);
+        temp = [_loc];
         Product memory P1 = Product(_name, _addr, block.timestamp, _expiry, _mrp, _packof, temp );
-        // P1.locations.push(_loc);
         bytes32 id = keccak256(abi.encodePacked(block.timestamp, _name, _addr, _expiry, _mrp, _packof, _loc));
         Products[id] = P1;
         emit created(id);
@@ -43,21 +41,19 @@ contract conV1 {
         emit removed(true);
     }
 
-    function add_next(bytes32 _id, address _addr, string memory _loc) private exists(_id){
-        Products[_id].next_addr = _addr;
-        Products[_id].locations.push(_loc);
-        emit added_next(true);
-    }
-
     function verify_user(bytes32 _id) public exists(_id) returns(bool){
-        bool temp = (Products[_id].next_addr == msg.sender) ? true : false;
-        emit verify(temp);
-        return temp;
+        bool val = (Products[_id].next_addr == msg.sender) ? true : false;
+        emit verify(val);
+        return val;
     }
 
     function next_location(bytes32 _id, address _addr, string memory _loc) public exists(_id){
-        require(verify_user(_id), "Invalid intermediate");
-        add_next(_id, _addr, _loc);
+        if (Products[_id].next_addr == msg.sender){
+            Products[_id].next_addr = _addr;
+            Products[_id].locations.push(_loc);
+            emit added_next(true);
+        }
+        else emit added_next(false);
     }
 
     function get_details(bytes32 _id) public exists(_id){
